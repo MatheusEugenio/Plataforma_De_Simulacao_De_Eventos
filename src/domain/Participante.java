@@ -16,16 +16,16 @@ public class Participante {
     private Email email;
     private String cargo;
     private NiveisDeAcesso nivelDeAcesso;
-    private List<Evento> historicoDeEventos;
+    private List<Evento> historicoDeEventos= new ArrayList<>();
     private StatusParticipante status;
 
-    public Participante(Long ID, Name name, Email email, String cargo, NiveisDeAcesso nivelDeAcesso) {
+    public Participante(Long ID, Name name, Email email, String cargo, NiveisDeAcesso nivelDeAcesso, List<Evento> historicoDeEventos ) {
         validateID(ID);
         validateName(name);
         validateEmail(email);
         validateCargo(cargo);
         validateNivelDeAcesso(nivelDeAcesso);
-        this.historicoDeEventos = new ArrayList<>();
+        this.historicoDeEventos = historicoDeEventos;
         this.status = StatusParticipante.ATIVO;
     }
 
