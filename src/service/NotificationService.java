@@ -20,7 +20,7 @@ public class NotificationService {
         observadores.add(o);
     }
 
-    private void notificar(Evento evento) {
+    public void notificar(Evento evento) {
         this.observadores.forEach(obs -> obs.reagir(evento));
     }
 }

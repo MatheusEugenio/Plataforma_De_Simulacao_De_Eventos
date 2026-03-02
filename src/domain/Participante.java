@@ -35,6 +35,18 @@ public class Participante {
         this.status = statusREF;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Participante that = (Participante) o;
+        return Objects.equals(ID, that.ID) && Objects.equals(name, that.name) && Objects.equals(email, that.email) && Objects.equals(cargo, that.cargo) && nivelDeAcesso == that.nivelDeAcesso && Objects.equals(historicoDeEventos, that.historicoDeEventos) && status == that.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ID, name, email, cargo, nivelDeAcesso, historicoDeEventos, status);
+    }
+
     private void validateID(Long id) {Objects.requireNonNull(id, "Erro, ID é não pode ser nulo.");this.ID = id;}
     private void validateEmail(Email email) {Objects.requireNonNull(email, "Erro: o email do participante é nulo.");this.email = email;}
     private void validateName(Name name) {Objects.requireNonNull(name, "Erro: nome passado para participante é nulo.");this.name = name;}
