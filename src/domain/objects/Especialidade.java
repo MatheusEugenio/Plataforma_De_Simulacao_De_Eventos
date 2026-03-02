@@ -1,6 +1,5 @@
 package domain.objects;
 
-import java.util.Objects;
 
 public class Especialidade {
 

@@ -13,9 +13,9 @@ public class EventoService {
         this.notifier = notificationService;
     }
 
-    public void criarEvento(){
-
-        notifier.notificar();
-    }
+//    public void criarEvento(){
+//
+//        notifier.notificar();
+//    }
 
 }
