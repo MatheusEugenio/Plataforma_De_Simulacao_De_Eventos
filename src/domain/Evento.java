@@ -70,7 +70,8 @@ public class Evento {
         }
 
         politicaCancelamento.executarPolitica(this);
-//        this.status = StatusEvento.CANCELADO;
+        this.status = StatusEvento.CANCELADO;
+
         System.out.println("O evento '"+this.nomeEvento+"' - "+this.ID+" foi cancelado!");
     }
 
@@ -81,13 +82,13 @@ public class Evento {
             throw new IllegalArgumentException("Erro: não haverá palestras neste evento.");
         }
 
-        if (this.listaDeInscritos.size() >= this.capacidadeMaxima){
+        if (listaDeInscritos.size() >= capacidadeMaxima){
             System.out.println("A lista de participantes já está lotada! O participante '"+participante+"' foi movido para a lista de espera.");
             promoverParaListaDeEspera(participante);
             return;
         }
 
-        if (!this.listaDeInscritos.add(participante))
+        if (!listaDeInscritos.add(participante))
             System.out.println("Não pode inscrever participantes repetidos!");
     }
 
@@ -134,19 +135,6 @@ public class Evento {
         this.listaDeEspera.add(participante);
     }
 
-//    private boolean cabe(Set<Participante> participantes) {
-//        Objects.requireNonNull(participantes, "Erro: lista de participantes não pode ser nulo.");
-//
-//        if (participantes.isEmpty()){
-//            throw new IllegalArgumentException("Erro: lista de participantes vazia.");
-//        }
-//
-//        int quantidadeDeVagasDesocupadas = this.capacidadeMaxima - this.listaDeInscritos.size();
-//
-//        if (participantes.size() > quantidadeDeVagasDesocupadas) {
-//            return false;
-//        }
-//
-//        return true;
-//    }
+    public Long getID(){return ID;}
+    public void setStatus(StatusEvento status){this.status = status;}
 }
