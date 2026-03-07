@@ -1,4 +1,4 @@
-package domain.objects;
+package entity;
 
 public interface Recurso {
     void usarRecurso();

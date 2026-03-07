@@ -1,4 +1,4 @@
-package domain.objects;
+package entity;
 
 public class Email {
 

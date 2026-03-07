@@ -1,4 +1,6 @@
-package domain;
+package entity;
+
+import domain.Evento;
 
 //quem implementar estará "observando/esperando" ações de Evento
 public interface ObserverNotification {
