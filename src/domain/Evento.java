@@ -3,6 +3,7 @@ package domain;
 import entity.IntervaloDeTempo;
 import entity.Name;
 import entity.PoliticaCancelamento;
+import entity.TipoEvento;
 import entity.status.StatusEvento;
 import excepetion.ConflitoHorarioException;
 
@@ -16,7 +17,7 @@ public class Evento {
     private Long ID;
     private Name nomeEvento;
     private String descricao;
-    private String tipo;// futuramente pode ser criado uma abstração ou enum para isso
+    private TipoEvento tipo;// futuramente pode ser criado uma abstração ou enum para isso
     private IntervaloDeTempo dataDeDuracaoDoEvento;
     private StatusEvento status;
     private int capacidadeMaxima;
@@ -29,7 +30,7 @@ public class Evento {
     public Evento(
             Name nomeEvento,
             String descricao,
-            String tipo,
+            TipoEvento tipo,
             IntervaloDeTempo dataDeDuracaoDoEvento,
             int capacidadeMaxima,
             PoliticaCancelamento politicaCancelamento
