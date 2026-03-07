@@ -1,8 +1,8 @@
 package domain;
 
-import domain.objects.Name;
-import domain.objects.Recurso;
-import domain.objects.StatusDaSala;
+import entity.Name;
+import entity.Recurso;
+import entity.StatusDaSala;
 
 import java.util.List;
 import java.util.Objects;

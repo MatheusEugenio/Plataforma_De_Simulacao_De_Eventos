@@ -1,6 +1,6 @@
 package domain;
 
-import domain.objects.*;
+import entity.*;
 
 import java.util.ArrayList;
 import java.util.List;

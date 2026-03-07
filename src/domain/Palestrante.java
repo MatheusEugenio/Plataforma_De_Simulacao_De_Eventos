@@ -1,9 +1,9 @@
 package domain;
 
-import domain.objects.AgendaDeDisponibilidade;
-import domain.objects.Especialidade;
-import domain.objects.IntervaloDeTempo;
-import domain.objects.Name;
+import entity.AgendaDeDisponibilidade;
+import entity.Especialidade;
+import entity.IntervaloDeTempo;
+import entity.Name;
 
 import java.util.List;
 import java.util.Objects;

@@ -1,8 +1,8 @@
 package domain;
 
-import domain.objects.IntervaloDeTempo;
-import domain.objects.Name;
-import domain.objects.StatusPalestra;
+import entity.IntervaloDeTempo;
+import entity.Name;
+import entity.StatusPalestra;
 
 import java.util.HashSet;
 import java.util.Objects;
