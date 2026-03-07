@@ -14,7 +14,7 @@ public class Participante {
     private Email email;
     private Cargo cargo;
     private NiveisDeAcesso nivelDeAcesso;
-    private List<Evento> historicoDeEventos= new ArrayList<>();
+    private List<Evento> historicoDeEventos = new ArrayList<>();
     private StatusParticipante status;
 
     public Participante(Long ID, Name name, Email email, Cargo cargo, NiveisDeAcesso nivelDeAcesso, List<Evento> historicoDeEventos ) {

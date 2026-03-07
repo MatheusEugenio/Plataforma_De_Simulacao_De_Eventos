@@ -4,6 +4,7 @@ import entity.IntervaloDeTempo;
 import entity.Name;
 import entity.PoliticaCancelamento;
 import entity.status.StatusEvento;
+import excepetion.ConflitoHorarioException;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -115,7 +116,7 @@ public class Evento {
                 .anyMatch(p -> p.conflitaComAlgumaPalestra(palestra.getHorario()));
 
         if (possuiPalestraNoMesmoHorario){
-            throw new IllegalArgumentException("Erro: já possui uma palestra nesse horário.");
+            throw new ConflitoHorarioException("Erro: já possui uma palestra nesse horário.");
         }
 
         this.listaDePalestras.add(palestra);

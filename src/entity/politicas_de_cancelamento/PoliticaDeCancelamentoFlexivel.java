@@ -2,6 +2,7 @@ package entity.politicas_de_cancelamento;
 
 import domain.Evento;
 import entity.PoliticaCancelamento;
+import excepetion.CancelamentoNaoPermitidoException;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -15,8 +16,7 @@ public class PoliticaDeCancelamentoFlexivel implements PoliticaCancelamento {
         long horasAteEvento = ChronoUnit.HOURS.between(tempoExatoDoCancelamento, evento.getHorarioDeComecoDoEvento());
 
         if (horasAteEvento >= 24){
-            System.out.println("Cancelamento fora do prazo para reembolso total.");
-            return;
+            throw new CancelamentoNaoPermitidoException("Cancelamento fora do prazo para reembolso total.");
         }
 
         System.out.println("Cancelamento realizado com sucesso!");
