@@ -5,7 +5,8 @@ import entity.Name;
 import entity.PoliticaCancelamento;
 import entity.TipoEvento;
 import entity.status.StatusEvento;
-import excepetion.ConflitoHorarioException;
+import exception.ConflitoHorarioException;
+import factory.FactoryPoliticaCancelamento;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -17,7 +18,7 @@ public class Evento {
     private Long ID;
     private Name nomeEvento;
     private String descricao;
-    private TipoEvento tipo;// futuramente pode ser criado uma abstração ou enum para isso
+    private TipoEvento tipo;
     private IntervaloDeTempo dataDeDuracaoDoEvento;
     private StatusEvento status;
     private int capacidadeMaxima;
@@ -32,8 +33,7 @@ public class Evento {
             String descricao,
             TipoEvento tipo,
             IntervaloDeTempo dataDeDuracaoDoEvento,
-            int capacidadeMaxima,
-            PoliticaCancelamento politicaCancelamento
+            int capacidadeMaxima
     ) {
         this.ID = contador++;
 
@@ -42,7 +42,7 @@ public class Evento {
         this.tipo = Objects.requireNonNull(tipo);
         this.dataDeDuracaoDoEvento = Objects.requireNonNull(dataDeDuracaoDoEvento);
         this.capacidadeMaxima = capacidadeMaxima;
-        this.politicaCancelamento = Objects.requireNonNull(politicaCancelamento);
+        this.politicaCancelamento = FactoryPoliticaCancelamento.createPoliticaCancelamento(this.tipo);
 
         this.status = StatusEvento.PLANEJADO;
 
@@ -74,8 +74,6 @@ public class Evento {
 
         politicaCancelamento.executarPolitica(this);
         this.status = StatusEvento.CANCELADO;
-
-        System.out.println("O evento '"+this.nomeEvento+"' - "+this.ID+" foi cancelado!");
     }
 
     public synchronized void inscreverParticipante(Participante participante){
@@ -138,6 +136,7 @@ public class Evento {
         this.listaDeEspera.add(participante);
     }
 
+    public String getNomeEvento() {return nomeEvento.getValue();}
     public Long getID(){return ID;}
     public void setStatus(StatusEvento status){this.status = status;}
     public LocalDateTime getHorarioDeComecoDoEvento(){return this.dataDeDuracaoDoEvento.getInicio();}
