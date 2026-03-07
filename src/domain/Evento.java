@@ -1,15 +1,15 @@
 package domain;
 
-import domain.objects.IntervaloDeTempo;
-import domain.objects.Name;
-import domain.objects.StatusEvento;
+import entity.IntervaloDeTempo;
+import entity.Name;
+import entity.PoliticaCancelamento;
+import entity.StatusEvento;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.Set;
+import java.util.*;
 
 public class Evento {
+
+    private static Long contador = 1L;
 
     private Long ID;
     private Name nomeEvento;
@@ -22,16 +22,30 @@ public class Evento {
     private Set<Participante> listaDeInscritos;
     private Queue<Participante> listaDeEspera;
     private List<Palestra> listaDePalestras;
+    private PoliticaCancelamento politicaCancelamento;
 
-    public Evento(int capacidadeMaxima, StatusEvento status, IntervaloDeTempo dataDeDuracaoDoEvento,
-                  String tipo, String descricao, Name nomeEvento, Long ID) {
+    public Evento(
+            Name nomeEvento,
+            String descricao,
+            String tipo,
+            IntervaloDeTempo dataDeDuracaoDoEvento,
+            int capacidadeMaxima,
+            PoliticaCancelamento politicaCancelamento
+    ) {
+        this.ID = contador++;
+
+        this.nomeEvento = Objects.requireNonNull(nomeEvento);
+        this.descricao = Objects.requireNonNull(descricao);
+        this.tipo = Objects.requireNonNull(tipo);
+        this.dataDeDuracaoDoEvento = Objects.requireNonNull(dataDeDuracaoDoEvento);
         this.capacidadeMaxima = capacidadeMaxima;
-        this.status = status;
-        this.dataDeDuracaoDoEvento = dataDeDuracaoDoEvento;
-        this.tipo = tipo;
-        this.descricao = descricao;
-        this.nomeEvento = nomeEvento;
-        this.ID = ID;
+        this.politicaCancelamento = Objects.requireNonNull(politicaCancelamento);
+
+        this.status = StatusEvento.PLANEJADO;
+
+        this.listaDeInscritos = new HashSet<>();
+        this.listaDePalestras = new ArrayList<>();
+        this.listaDeEspera = new LinkedList<>();
     }
 
     public void confirmar(){
@@ -44,7 +58,6 @@ public class Evento {
         }
 
         this.status = StatusEvento.CONFIRMADO;
-        notificar();
     }
 
     public void cancelar(){
@@ -52,12 +65,16 @@ public class Evento {
             throw new IllegalArgumentException("Erro: o evento já finalizado.");
         }
 
-        this.status = StatusEvento.CANCELADO;
-        //politicas de cancelamento
-        notificar();
+        if (this.status == StatusEvento.CANCELADO){
+            throw new IllegalArgumentException("Erro: o evento já está cancelado.");
+        }
+
+        politicaCancelamento.executarPolitica(this);
+//        this.status = StatusEvento.CANCELADO;
+        System.out.println("O evento '"+this.nomeEvento+"' - "+this.ID+" foi cancelado!");
     }
 
-    public void inscreverParticipante(Participante participante){
+    public synchronized void inscreverParticipante(Participante participante){
         Objects.requireNonNull(participante, "Erro: o participante é nulo");
 
         if (this.listaDePalestras.isEmpty()) {
@@ -70,13 +87,8 @@ public class Evento {
             return;
         }
 
-        //verificar se tem horarios de palestra disponivel
-
-        if (this.listaDeInscritos.add(participante)) {
-            notificar();
-        } else {
+        if (!this.listaDeInscritos.add(participante))
             System.out.println("Não pode inscrever participantes repetidos!");
-        }
     }
 
     public void cancelarInscricao(Participante participante){
@@ -88,15 +100,6 @@ public class Evento {
 
         this.listaDeInscritos.remove(participante);
         promoverParaListaDeEspera(participante);
-        notificar();
-    }
-
-    public void promoverParaListaDeEspera(Participante participante){
-        if (this.listaDeEspera.contains(participante)){
-            throw new IllegalArgumentException("Erro: participante '"+participante+"' já está na lista de espera.");
-        }
-
-        this.listaDeEspera.add(participante);
     }
 
     public void adicionarPalestra(Palestra palestra){
@@ -119,35 +122,31 @@ public class Evento {
     public void alterarData(IntervaloDeTempo novaData){
         Objects.requireNonNull(novaData, "Erro: a nova data é nula.");
 
-        //** lógica de alterarção de data
-
-        notificar();
+        this.dataDeDuracaoDoEvento.setInicio(novaData.getInicio());
+        this.dataDeDuracaoDoEvento.setFim(novaData.getFim());
     }
 
-    //**MÉTODOS PRIVADOS
-
-    private boolean cabe(Set<Participante> participantes) {
-        validateListaDeParticipantes(participantes);
-
-        int quantidadeDeVagasDesocupadas = this.capacidadeMaxima - this.listaDeInscritos.size();
-
-        if (participantes.size() > quantidadeDeVagasDesocupadas) {
-            return false;
+    private void promoverParaListaDeEspera(Participante participante){
+        if (this.listaDeEspera.contains(participante)){
+            throw new IllegalArgumentException("Erro: participante '"+participante+"' já está na lista de espera.");
         }
 
-        return true;
+        this.listaDeEspera.add(participante);
     }
 
-    private void notificar(){
-        //notificar(this);
-    }
-
-    private void validateListaDeParticipantes(Set<Participante> participantes){
-        Objects.requireNonNull(participantes, "Erro: lista de participantes não pode ser nulo.");
-
-        if (participantes.isEmpty()){
-            throw new IllegalArgumentException("Erro: lista de participantes vazia.");
-        }
-    }
-
+//    private boolean cabe(Set<Participante> participantes) {
+//        Objects.requireNonNull(participantes, "Erro: lista de participantes não pode ser nulo.");
+//
+//        if (participantes.isEmpty()){
+//            throw new IllegalArgumentException("Erro: lista de participantes vazia.");
+//        }
+//
+//        int quantidadeDeVagasDesocupadas = this.capacidadeMaxima - this.listaDeInscritos.size();
+//
+//        if (participantes.size() > quantidadeDeVagasDesocupadas) {
+//            return false;
+//        }
+//
+//        return true;
+//    }
 }

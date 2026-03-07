@@ -1,8 +1,10 @@
 package service;
 
+import domain.Palestra;
+import domain.Participante;
+import entity.IntervaloDeTempo;
 import repository.EventsRepository;
 
-//RASCUNHO DE CLASSE
 public class EventoService {
 
     private EventsRepository repository;
@@ -13,9 +15,27 @@ public class EventoService {
         this.notifier = notificationService;
     }
 
-//    public void criarEvento(){
-//
-//        notifier.notificar();
-//    }
+    public void confirmarEvento(Long idEvento){
 
+    }
+
+    public void cancelarEvento(Long idEvento, String motivo){
+
+    }
+
+    public void inscreverParticipanteNoEvento(Long IDEvento, Participante participante){
+
+    }
+
+    public void cancelarInscricaoNoEvento(Long IDEvento, Participante participante){
+
+    }
+
+    public void adicionarPalestra(Palestra palestra){
+
+    }
+
+    public void alterarDataDoEvento(Long IDEvento, IntervaloDeTempo novaDataDoEvento){
+
+    }
 }
