@@ -1,7 +1,6 @@
 package politicas_de_cancelamento;
 
 import domain.Evento;
-import entity.PoliticaCancelamento;
 
 public class PoliticaCancelamentoLivre implements PoliticaCancelamento {
     @Override

@@ -1,6 +1,6 @@
 package factory;
 
-import entity.PoliticaCancelamento;
+import politicas_de_cancelamento.PoliticaCancelamento;
 import entity.TipoEvento;
 import politicas_de_cancelamento.PoliticaCancelamentoAtePrazo;
 import politicas_de_cancelamento.PoliticaCancelamentoComMulta;

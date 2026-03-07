@@ -2,7 +2,7 @@ package domain;
 
 import entity.IntervaloDeTempo;
 import entity.Name;
-import entity.PoliticaCancelamento;
+import politicas_de_cancelamento.PoliticaCancelamento;
 import entity.TipoEvento;
 import entity.status.StatusEvento;
 import exception.ConflitoHorarioException;

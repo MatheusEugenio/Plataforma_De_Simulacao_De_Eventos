@@ -1,4 +1,4 @@
-package entity;
+package politicas_de_cancelamento;
 
 import domain.Evento;
 

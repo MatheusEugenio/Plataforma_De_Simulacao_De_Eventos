@@ -1,24 +1,24 @@
 package service;
 
 import domain.Evento;
-import entity.ObserverNotification;
+import infra.observers.Observers;
 
 import java.util.List;
 import java.util.Objects;
 
 public class NotificationService {
 
-    private final List<ObserverNotification> observadores;
+    private final List<Observers> observadores;
 
-    public NotificationService(List<ObserverNotification> observers) {
+    public NotificationService(List<Observers> observers) {
         this.observadores = observers;
     }
 
-    public void addObserver(ObserverNotification o) {
+    public void addObserver(Observers o) {
         observadores.add(Objects.requireNonNull(o, "Erro: observer não pode ser nulo!"));
     }
 
-    public void removerObserver(ObserverNotification o){
+    public void removerObserver(Observers o){
         Objects.requireNonNull(o, "Erro: observer não pode ser nulo!");
 
         if (!this.observadores.contains(o)) {
