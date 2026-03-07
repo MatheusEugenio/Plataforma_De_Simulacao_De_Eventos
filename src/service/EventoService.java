@@ -4,7 +4,7 @@ import domain.Evento;
 import domain.Palestra;
 import domain.Participante;
 import entity.IntervaloDeTempo;
-import entity.StatusEvento;
+import entity.status.StatusEvento;
 import repository.EventsRepository;
 
 public class EventoService {

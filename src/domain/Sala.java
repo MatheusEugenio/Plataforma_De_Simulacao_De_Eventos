@@ -2,7 +2,7 @@ package domain;
 
 import entity.Name;
 import entity.Recurso;
-import entity.StatusDaSala;
+import entity.status.StatusDaSala;
 
 import java.util.List;
 import java.util.Objects;

@@ -3,8 +3,9 @@ package domain;
 import entity.IntervaloDeTempo;
 import entity.Name;
 import entity.PoliticaCancelamento;
-import entity.StatusEvento;
+import entity.status.StatusEvento;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Evento {
@@ -18,11 +19,11 @@ public class Evento {
     private IntervaloDeTempo dataDeDuracaoDoEvento;
     private StatusEvento status;
     private int capacidadeMaxima;
+    private PoliticaCancelamento politicaCancelamento;
 
     private Set<Participante> listaDeInscritos;
     private Queue<Participante> listaDeEspera;
     private List<Palestra> listaDePalestras;
-    private PoliticaCancelamento politicaCancelamento;
 
     public Evento(
             Name nomeEvento,
@@ -137,4 +138,5 @@ public class Evento {
 
     public Long getID(){return ID;}
     public void setStatus(StatusEvento status){this.status = status;}
+    public LocalDateTime getHorarioDeComecoDoEvento(){return this.dataDeDuracaoDoEvento.getInicio();}
 }

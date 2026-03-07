@@ -1,6 +1,7 @@
 package domain;
 
 import entity.*;
+import entity.status.StatusParticipante;
 
 import java.util.ArrayList;
 import java.util.List;

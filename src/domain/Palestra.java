@@ -2,7 +2,7 @@ package domain;
 
 import entity.IntervaloDeTempo;
 import entity.Name;
-import entity.StatusPalestra;
+import entity.status.StatusPalestra;
 
 import java.util.HashSet;
 import java.util.Objects;
