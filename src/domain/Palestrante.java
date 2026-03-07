@@ -38,11 +38,7 @@ public class Palestrante {
 
         boolean conflitoComAgenda = this.agenda.temConflitoComAgenda(this.palestrasAgendadas, intervaloSolicitado);
 
-        if (conflitoComAgenda){
-            return false;
-        }
-
-        return true;
+        return !conflitoComAgenda;
     }
 
     private void validateAgenda(AgendaDeDisponibilidade agenda){
