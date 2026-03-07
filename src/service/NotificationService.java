@@ -1,7 +1,7 @@
 package service;
 
 import domain.Evento;
-import domain.ObserverNotification;
+import entity.ObserverNotification;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,10 +14,17 @@ public class NotificationService {
         this.observadores = observers;
     }
 
-    //* Metodo de rascunho
     public void addObserver(ObserverNotification o) {
+        observadores.add(Objects.requireNonNull(o, "Erro: observer não pode ser nulo!"));
+    }
+
+    public void removerObserver(ObserverNotification o){
         Objects.requireNonNull(o, "Erro: observer não pode ser nulo!");
-        observadores.add(o);
+
+        if (!this.observadores.contains(o)) {
+            throw new IllegalArgumentException("Erro: esse observer não está na lista.");
+        }
+        observadores.remove(o);
     }
 
     public void notificar(Evento evento) {
