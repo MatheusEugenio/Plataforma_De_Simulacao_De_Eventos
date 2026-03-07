@@ -36,6 +36,8 @@ public class EventoService {
         event.setStatus(StatusEvento.CANCELADO);
         eventsRepository.save(event);
         this.notifier.notificar(event);
+
+        System.out.println("O evento '"+event.getNomeEvento()+"' - "+event.getID()+" foi cancelado!");
     }
 
     public void inscreverParticipanteNoEvento(Long IDEvento, Participante participante){
