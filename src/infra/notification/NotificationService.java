@@ -13,6 +13,10 @@ public class NotificationService {
         this.observadores = observers;
     }
 
+    public void notificar(Evento evento) {
+        this.observadores.forEach(obs -> obs.reagir(evento));
+    }
+
     public void addObserver(Observer o) {
         observadores.add(Objects.requireNonNull(o, "Erro: observer não pode ser nulo!"));
     }
@@ -24,9 +28,5 @@ public class NotificationService {
             throw new IllegalArgumentException("Erro: esse observer não está na lista.");
         }
         observadores.remove(o);
-    }
-
-    public void notificar(Evento evento) {
-        this.observadores.forEach(obs -> obs.reagir(evento));
     }
 }
