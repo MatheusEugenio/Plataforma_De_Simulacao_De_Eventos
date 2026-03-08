@@ -20,8 +20,8 @@ public class Participante implements Observer {
     private Email email;
     private Cargo cargo;
     private NiveisDeAcesso nivelDeAcesso;
-    private List<Evento> historicoDeEventos = new ArrayList<>();
     private StatusParticipante status;
+    private List<Evento> historicoDeEventos = new ArrayList<>();
 
     public Participante(Name name, Email email, Cargo cargo, NiveisDeAcesso nivelDeAcesso) {
 
@@ -36,13 +36,13 @@ public class Participante implements Observer {
         this.historicoDeEventos = new ArrayList<>();
     }
 
-    public void inscreverseNoEvento(Evento evento) {
+    public void adicionarEventoAoHistorico(Evento evento) {
 
         Objects.requireNonNull(evento, "Erro: evento não pode ser nulo.");
         historicoDeEventos.add(evento);
     }
 
-    public void cancelarInscricaoDoEvento(Evento evento) {
+    public void removerEventoDoHistorico(Evento evento) {
 
         Objects.requireNonNull(evento, "Erro: evento não pode ser nulo.");
 
@@ -55,6 +55,10 @@ public class Participante implements Observer {
 
     public void mudarStatus(StatusParticipante statusREF) {
         this.status = statusREF;
+    }
+
+    public void alterarNivelDeAcesso(NiveisDeAcesso nivelDeAcesso){
+        this.nivelDeAcesso = nivelDeAcesso;
     }
 
     @Override
@@ -74,6 +78,8 @@ public class Participante implements Observer {
         return Objects.hash(ID, name, email, cargo, nivelDeAcesso, historicoDeEventos, status);
     }
     public NiveisDeAcesso getNivelDeAcesso(){return this.nivelDeAcesso;}
+    public Long getID(){return this.ID;}
+    public StatusParticipante getStatus() {return status;}
 
     private Email validateEmail(Email email) { return Objects.requireNonNull(email, "Erro: o email do participante é nulo.");}
     private Name validateName(Name name) { return Objects.requireNonNull(name, "Erro: nome passado para participante é nulo.");}

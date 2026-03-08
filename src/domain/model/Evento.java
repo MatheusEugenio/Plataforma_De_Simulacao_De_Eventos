@@ -49,6 +49,7 @@ public class Evento {
     }
 
     public void confirmar(){
+
         if (this.status == StatusEvento.FINALIZADO){
             throw new IllegalArgumentException("Erro: o evento já finalizado.");
         }
@@ -61,6 +62,7 @@ public class Evento {
     }
 
     public void cancelar(){
+
         if (this.status == StatusEvento.FINALIZADO){
             throw new IllegalArgumentException("Erro: o evento já finalizado.");
         }
@@ -74,6 +76,7 @@ public class Evento {
     }
 
     public synchronized void inscreverParticipanteNoEvento(Participante participante){
+
         Objects.requireNonNull(participante, "Erro: o participante é nulo");
 
         if (listaDePalestras.isEmpty()) {
@@ -96,7 +99,7 @@ public class Evento {
             return;
         }
 
-        participante.inscreverseNoEvento(this);
+        participante.adicionarEventoAoHistorico(this);
         this.listaDeInscritos.add(participante);
     }
 
@@ -107,7 +110,7 @@ public class Evento {
             throw new IllegalArgumentException("Erro: particpante não está inscrito.");
         }
 
-        participante.cancelarInscricaoDoEvento(this);
+        participante.removerEventoDoHistorico(this);
         this.listaDeInscritos.remove(participante);
         promoverParaListaDeEspera(participante);
     }
@@ -136,7 +139,7 @@ public class Evento {
         this.dataDeDuracaoDoEvento.setFim(novaData.getFim());
     }
 
-    public boolean validarNivelDeAcessoDoParticipante(NiveisDeAcesso nivelDeAcessoDoParticipante){
+    private boolean validarNivelDeAcessoDoParticipante(NiveisDeAcesso nivelDeAcessoDoParticipante){
 
         if (nivelDeAcessoDoParticipante == NiveisDeAcesso.PARTICIPANTE  && tipo == TipoEvento.EVENTO_PAGO){ //exceção
             return true;
