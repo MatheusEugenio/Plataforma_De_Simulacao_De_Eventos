@@ -30,20 +30,15 @@ public class Evento {
     private Queue<Participante> listaDeEspera;
     private List<Palestra> listaDePalestras;
 
-    public Evento(
-            Name nomeEvento,
-            String descricao,
-            TipoEvento tipo,
-            IntervaloDeTempo dataDeDuracaoDoEvento,
-            int capacidadeMaxima
-    ) {
+    public Evento(Builder builder) {
+
         this.ID = contador++;
 
-        this.nomeEvento = Objects.requireNonNull(nomeEvento);
-        this.descricao = Objects.requireNonNull(descricao);
-        this.tipo = Objects.requireNonNull(tipo);
-        this.dataDeDuracaoDoEvento = Objects.requireNonNull(dataDeDuracaoDoEvento);
-        this.capacidadeMaxima = capacidadeMaxima;
+        this.nomeEvento = builder.nomeEvento;
+        this.descricao = builder.descricao;
+        this.tipo = builder.tipo;
+        this.dataDeDuracaoDoEvento = builder.dataDeDuracaoDoEvento;
+        this.capacidadeMaxima = builder.capacidadeMaxima;
         this.politicaCancelamento = FactoryPoliticaCancelamento.createPoliticaCancelamento(this.tipo);
 
         this.status = StatusEvento.PLANEJADO;
@@ -120,7 +115,7 @@ public class Evento {
     public void adicionarPalestra(Palestra palestra){
         Objects.requireNonNull(palestra, "Erro: a palestra não pode ser nula.");
 
-        if (this.listaDePalestras.contains(palestra)){
+        if (listaDePalestras.contains(palestra)){
             throw new IllegalArgumentException("Erro: a palestra já está na cadastrada.");
         }
 
@@ -166,4 +161,51 @@ public class Evento {
     public Long getID(){return ID;}
     public void setStatus(StatusEvento status){this.status = status;}
     public LocalDateTime getHorarioDeComecoDoEvento(){return this.dataDeDuracaoDoEvento.getInicio();}
+
+    public static class Builder {
+
+        private Name nomeEvento;
+        private String descricao;
+        private TipoEvento tipo;
+        private IntervaloDeTempo dataDeDuracaoDoEvento;
+        private int capacidadeMaxima;
+
+        public Builder nomeEvento(Name nomeEvento){
+            Objects.requireNonNull(nomeEvento);
+            this.nomeEvento = nomeEvento;
+            return this;
+        }
+
+        public Builder descricao(String descricao){
+            Objects.requireNonNull(descricao);
+            this.descricao = descricao;
+            return this;
+        }
+
+        public Builder tipo(TipoEvento tipo){
+            Objects.requireNonNull(tipo);
+            this.tipo = tipo;
+            return this;
+        }
+
+        public Builder dataDeDuracao(IntervaloDeTempo data){
+            Objects.requireNonNull(data);
+            this.dataDeDuracaoDoEvento = data;
+            return this;
+        }
+
+        public Builder capacidadeMaxima(int capacidade){
+
+            if (capacidade <= 10){
+                throw new IllegalArgumentException("Erro: capacidade deve ser um positivo.");
+            }
+
+            this.capacidadeMaxima = capacidade;
+            return this;
+        }
+
+        public Evento build(){
+            return new Evento(this);
+        }
+    }
 }
