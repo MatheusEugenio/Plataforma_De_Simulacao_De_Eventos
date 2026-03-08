@@ -141,14 +141,6 @@ public class Evento {
         this.dataDeDuracaoDoEvento.setFim(novaData.getFim());
     }
 
-    private void promoverParaListaDeEspera(Participante participante){
-        if (this.listaDeEspera.contains(participante)){
-            throw new IllegalArgumentException("Erro: participante '"+participante+"' já está na lista de espera.");
-        }
-
-        this.listaDeEspera.add(participante);
-    }
-
     public boolean validarNivelDeAcessoDoParticipante(NiveisDeAcesso nivelDeAcessoDoParticipante){
 
         if (nivelDeAcessoDoParticipante == NiveisDeAcesso.PARTICIPANTE  && tipo == TipoEvento.EVENTO_PAGO){ //exceção
@@ -160,6 +152,14 @@ public class Evento {
         }
 
         return true;
+    }
+
+    private void promoverParaListaDeEspera(Participante participante){
+        if (this.listaDeEspera.contains(participante)){
+            throw new IllegalArgumentException("Erro: participante '"+participante+"' já está na lista de espera.");
+        }
+
+        this.listaDeEspera.add(participante);
     }
 
     public String getNomeEvento() {return nomeEvento.getValue();}

@@ -11,11 +11,11 @@ import infra.repository.EventsRepository;
 public class EventoService {
 
     private EventsRepository eventsRepository;
-    private NotificationService notifier;
+    private NotificationService notificador;
 
     public EventoService(EventsRepository eventsRepository, NotificationService notificationService){
         this.eventsRepository = eventsRepository;
-        this.notifier = notificationService;
+        this.notificador = notificationService;
     }
 
     public void confirmarEvento(Long idEvento){
@@ -25,7 +25,7 @@ public class EventoService {
         event.confirmar();
 
         eventsRepository.save(event);
-        this.notifier.notificar(event);
+        this.notificador.notificar(event);
     }
 
     public void cancelarEvento(Long idEvento){
@@ -35,8 +35,9 @@ public class EventoService {
         event.cancelar();
 
         event.setStatus(StatusEvento.CANCELADO);
+
         eventsRepository.save(event);
-        this.notifier.notificar(event);
+        this.notificador.notificar(event);
 
         System.out.println("O evento '"+event.getNomeEvento()+"' - "+event.getID()+" foi cancelado!");
     }
@@ -48,7 +49,7 @@ public class EventoService {
         event.inscreverParticipanteNoEvento(participante);
 
         eventsRepository.save(event);
-        this.notifier.notificar(event);
+        this.notificador.notificar(event);
     }
 
     public void cancelarInscricaoNoEvento(Long IDEvento, Participante participante){
@@ -58,7 +59,7 @@ public class EventoService {
         event.cancelarInscricaoDoParticipanteNoEvento(participante);
 
         this.eventsRepository.save(event);
-        this.notifier.notificar(event);
+        this.notificador.notificar(event);
     }
 
     public void adicionarPalestra(Long IdEvento, Palestra palestra){
@@ -68,7 +69,7 @@ public class EventoService {
         event.adicionarPalestra(palestra);
 
         eventsRepository.save(event);
-        this.notifier.notificar(event);
+        this.notificador.notificar(event);
     }
 
     public void alterarDataDoEvento(Long IDEvento, IntervaloDeTempo novaDataDoEvento){
@@ -78,7 +79,7 @@ public class EventoService {
         event.alterarData(novaDataDoEvento);
 
         this.eventsRepository.save(event);
-        this.notifier.notificar(event);
+        this.notificador.notificar(event);
     }
 
     public void excluirEvento(Long IDEvento){
@@ -87,7 +88,7 @@ public class EventoService {
 
         event.cancelar();
 
-        notifier.notificar(event);
+        notificador.notificar(event);
 
         eventsRepository.delete(IDEvento);
     }

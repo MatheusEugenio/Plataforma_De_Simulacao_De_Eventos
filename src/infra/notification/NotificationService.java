@@ -7,17 +7,17 @@ import java.util.Objects;
 
 public class NotificationService {
 
-    private final List<Observers> observadores;
+    private final List<Observer> observadores;
 
-    public NotificationService(List<Observers> observers) {
+    public NotificationService(List<Observer> observers) {
         this.observadores = observers;
     }
 
-    public void addObserver(Observers o) {
+    public void addObserver(Observer o) {
         observadores.add(Objects.requireNonNull(o, "Erro: observer não pode ser nulo!"));
     }
 
-    public void removerObserver(Observers o){
+    public void removerObserver(Observer o){
         Objects.requireNonNull(o, "Erro: observer não pode ser nulo!");
 
         if (!this.observadores.contains(o)) {

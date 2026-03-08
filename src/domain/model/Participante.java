@@ -5,12 +5,13 @@ import domain.valueobject.Email;
 import domain.valueobject.Name;
 import domain.model.enums.NiveisDeAcesso;
 import domain.model.enums.StatusParticipante;
+import infra.notification.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Participante {
+public class Participante implements Observer {
 
     private Long ID;
     private Name name;
@@ -49,6 +50,11 @@ public class Participante {
 
     public void mudarStatus(StatusParticipante statusREF) {
         this.status = statusREF;
+    }
+
+    @Override
+    public void reagir(Evento evento) {
+        System.out.println("Notificação para o participante, do evento "+evento.getNomeEvento()+", envida com sucesso!");
     }
 
     @Override
