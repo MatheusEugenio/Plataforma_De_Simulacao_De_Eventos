@@ -10,28 +10,29 @@ import java.util.Set;
 
 public class Palestra {
 
+    public static Long contador = 1L;
+
     private Long ID;
-    private Name nome;
-    private Palestrante palestrante;
-    private IntervaloDeTempo horario;
     private Sala salaDaPalestra;
+    private IntervaloDeTempo horario;
+    private Palestrante palestrante;
+    private Name nome;
     private int limiteDeParticipantes;
     private StatusPalestra status;
     private Set<Participante> inscritosNaPalestra;
 
-    public Palestra(Sala salaDaPalestra, IntervaloDeTempo horario, Palestrante palestrante, Name nome, Long ID) {
-        validateSala(salaDaPalestra);
-        validateDuracao(horario);
-        validatePalestrante(palestrante);
-        validateID(ID);
-        validateName(nome);
+    public Palestra(Builder builder) {
+
+        this.ID = contador++;
+
+        this.salaDaPalestra = validateSala(builder.salaDaPalestra);
+        this.horario = validateDuracao(builder.horario);
+        this.palestrante = validatePalestrante(builder.palestrante);
+        this.nome = validateName(builder.nome);
+
         validateCapacidade(limiteDeParticipantes);
-        this.salaDaPalestra = salaDaPalestra;
-        this.horario = horario;
-        this.palestrante = palestrante;
-        this.ID = ID;
-        this.nome = nome;
         this.limiteDeParticipantes = salaDaPalestra.getCapacidadeDaSala();
+
         this.status = StatusPalestra.VAZIA;
         this.inscritosNaPalestra = new HashSet<>();
     }
@@ -62,13 +63,49 @@ public class Palestra {
         return horario.contem(horarioEstabelecido);
     }
 
-    private void validateSala(Sala sala){Objects.requireNonNull(sala, "Erro: o objeto de sala é nulo.");}
-    private void validateDuracao(IntervaloDeTempo tempo){Objects.requireNonNull(tempo, "Erro: o tempo é nulo.");}
-    private void validatePalestrante(Palestrante palestrante){Objects.requireNonNull(palestrante, "Erro: o palestrante é nulo.");}
-    private void validateID(Long id) {Objects.requireNonNull(id, "Erro, ID é não pode ser nulo.");}
-    private void validateName(Name name) {Objects.requireNonNull(name, "Erro: nome passado para participante é nulo.");}
-    private void validateCapacidade(int capacidadeDaSala) {if (capacidadeDaSala <= 0){ throw new IllegalArgumentException("Erro: o número máximo de participantes da palestra não pode ser menor ou igual a 0."); }}
-
     public Set<Participante> getInscritosNaPalestra() {return inscritosNaPalestra;}
     public IntervaloDeTempo getHorario() {return horario;}
+
+    private Sala validateSala(Sala sala){return Objects.requireNonNull(sala, "Erro: o objeto de sala é nulo.");}
+    private IntervaloDeTempo validateDuracao(IntervaloDeTempo tempo){ return Objects.requireNonNull(tempo, "Erro: o tempo é nulo.");}
+    private Palestrante validatePalestrante(Palestrante palestrante){ return Objects.requireNonNull(palestrante, "Erro: o palestrante é nulo.");}
+    private Name validateName(Name name) { return Objects.requireNonNull(name, "Erro: nome passado para participante é nulo.");}
+    private void validateCapacidade(int capacidadeDaSala) {if (capacidadeDaSala <= 0){ throw new IllegalArgumentException("Erro: o número máximo de participantes da palestra não pode ser menor ou igual a 0."); }}
+
+    public static class Builder {
+
+        private Sala salaDaPalestra;
+        private IntervaloDeTempo horario;
+        private Palestrante palestrante;
+        private Name nome;
+        private Long ID;
+
+        public Builder salaDaPalestra(Sala salaDaPalestra) {
+
+            this.salaDaPalestra = salaDaPalestra;
+            return this;
+        }
+
+        public Builder horarioDaPalestra(IntervaloDeTempo horario) {
+
+            this.horario= horario;
+            return this;
+        }
+
+        public Builder palestrante(Palestrante palestrante) {
+
+            this.palestrante = palestrante;
+            return this;
+        }
+
+        public Builder nome(Name name) {
+
+            this.nome = name;
+            return this;
+        }
+
+        public Palestra build() {
+            return new Palestra(this);
+        }
+    }
 }
