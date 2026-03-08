@@ -13,6 +13,8 @@ import java.util.Objects;
 
 public class Participante implements Observer {
 
+    private static Long contador = 2L;
+
     private Long ID;
     private Name name;
     private Email email;
@@ -21,23 +23,26 @@ public class Participante implements Observer {
     private List<Evento> historicoDeEventos = new ArrayList<>();
     private StatusParticipante status;
 
-    public Participante(Long ID, Name name, Email email, Cargo cargo, NiveisDeAcesso nivelDeAcesso, List<Evento> historicoDeEventos ) {
-        validateID(ID);
-        validateName(name);
-        validateEmail(email);
-        validateCargo(cargo);
-        validateNivelDeAcesso(nivelDeAcesso);
-        this.historicoDeEventos = historicoDeEventos;
+    public Participante(Name name, Email email, Cargo cargo, NiveisDeAcesso nivelDeAcesso) {
+
+        this.ID = contador++;
+
+        this.name = validateName(name);
+        this.email = validateEmail(email);
+        this.nivelDeAcesso = validateNivelDeAcesso(nivelDeAcesso);
+        this.cargo = validateCargo(cargo);
+
         this.status = StatusParticipante.ATIVO;
+        this.historicoDeEventos = new ArrayList<>();
     }
 
-    public void adicionarEventoAoHistorico(Evento evento) {
+    public void inscreverseNoEvento(Evento evento) {
 
         Objects.requireNonNull(evento, "Erro: evento não pode ser nulo.");
         historicoDeEventos.add(evento);
     }
 
-    public void removerEventoDoHistorico(Evento evento) {
+    public void cancelarInscricaoDoEvento(Evento evento) {
 
         Objects.requireNonNull(evento, "Erro: evento não pode ser nulo.");
 
@@ -68,11 +73,10 @@ public class Participante implements Observer {
     public int hashCode() {
         return Objects.hash(ID, name, email, cargo, nivelDeAcesso, historicoDeEventos, status);
     }
-
-    private void validateID(Long id) {Objects.requireNonNull(id, "Erro, ID é não pode ser nulo.");this.ID = id;}
-    private void validateEmail(Email email) {Objects.requireNonNull(email, "Erro: o email do participante é nulo.");this.email = email;}
-    private void validateName(Name name) {Objects.requireNonNull(name, "Erro: nome passado para participante é nulo.");this.name = name;}
-    private void validateNivelDeAcesso(NiveisDeAcesso nivelDeAcesso) {Objects.requireNonNull(nivelDeAcesso, "Erro: nível de acesso do participante é nulo.");this.nivelDeAcesso = nivelDeAcesso;}
-    private void validateCargo(Cargo cargo) {Objects.requireNonNull(cargo, "Erro: cargo do participante é nulo.");this.cargo = cargo;}
     public NiveisDeAcesso getNivelDeAcesso(){return this.nivelDeAcesso;}
+
+    private Email validateEmail(Email email) { return Objects.requireNonNull(email, "Erro: o email do participante é nulo.");}
+    private Name validateName(Name name) { return Objects.requireNonNull(name, "Erro: nome passado para participante é nulo.");}
+    private NiveisDeAcesso validateNivelDeAcesso(NiveisDeAcesso nivelDeAcesso) { return Objects.requireNonNull(nivelDeAcesso, "Erro: nível de acesso do participante é nulo.");}
+    private Cargo validateCargo(Cargo cargo) { return Objects.requireNonNull(cargo, "Erro: cargo do participante é nulo.");}
 }

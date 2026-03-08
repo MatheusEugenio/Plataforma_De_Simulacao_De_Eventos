@@ -96,7 +96,7 @@ public class Evento {
             return;
         }
 
-        participante.adicionarEventoAoHistorico(this);
+        participante.inscreverseNoEvento(this);
         this.listaDeInscritos.add(participante);
     }
 
@@ -107,7 +107,7 @@ public class Evento {
             throw new IllegalArgumentException("Erro: particpante não está inscrito.");
         }
 
-        participante.removerEventoDoHistorico(this);
+        participante.cancelarInscricaoDoEvento(this);
         this.listaDeInscritos.remove(participante);
         promoverParaListaDeEspera(participante);
     }
