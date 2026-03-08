@@ -2,8 +2,19 @@ package domain.model.enums;
 
 public enum TipoEvento {
 
-    EVENTO_GRATUITO,
-    EVENTO_PAGO,
-    EVENTO_CORPORATIVO,
-    EVENTO_PREMIUM
+    EVENTO_GRATUITO(1),
+    EVENTO_PAGO(2),
+    EVENTO_CORPORATIVO(3),
+    EVENTO_PREMIUM(4);
+
+    private final int peso;
+
+    TipoEvento(int peso) {
+        this.peso = peso;
+    }
+
+    public int getPeso() {
+        return peso;
+    }
 }
+

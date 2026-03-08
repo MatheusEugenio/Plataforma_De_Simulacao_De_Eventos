@@ -31,8 +31,20 @@ public class Participante {
     }
 
     public void adicionarEventoAoHistorico(Evento evento) {
+
         Objects.requireNonNull(evento, "Erro: evento não pode ser nulo.");
         historicoDeEventos.add(evento);
+    }
+
+    public void removerEventoDoHistorico(Evento evento) {
+
+        Objects.requireNonNull(evento, "Erro: evento não pode ser nulo.");
+
+        if(!historicoDeEventos.contains(evento)) {
+            throw new IllegalArgumentException("Erro: o participante não está inscrito no evento.");
+        }
+
+        historicoDeEventos.remove(evento);
     }
 
     public void mudarStatus(StatusParticipante statusREF) {
@@ -56,4 +68,5 @@ public class Participante {
     private void validateName(Name name) {Objects.requireNonNull(name, "Erro: nome passado para participante é nulo.");this.name = name;}
     private void validateNivelDeAcesso(NiveisDeAcesso nivelDeAcesso) {Objects.requireNonNull(nivelDeAcesso, "Erro: nível de acesso do participante é nulo.");this.nivelDeAcesso = nivelDeAcesso;}
     private void validateCargo(Cargo cargo) {Objects.requireNonNull(cargo, "Erro: cargo do participante é nulo.");this.cargo = cargo;}
+    public NiveisDeAcesso getNivelDeAcesso(){return this.nivelDeAcesso;}
 }

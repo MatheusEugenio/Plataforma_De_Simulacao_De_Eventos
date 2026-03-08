@@ -1,5 +1,7 @@
 package domain.model;
 
+import domain.exception.ParticipanteInvalidoException;
+import domain.model.enums.NiveisDeAcesso;
 import domain.valueobject.IntervaloDeTempo;
 import domain.valueobject.Name;
 import domain.policy.PoliticaCancelamento;
@@ -79,8 +81,18 @@ public class Evento {
     public synchronized void inscreverParticipanteNoEvento(Participante participante){
         Objects.requireNonNull(participante, "Erro: o participante é nulo");
 
-        if (this.listaDePalestras.isEmpty()) {
+        if (listaDePalestras.isEmpty()) {
             throw new IllegalArgumentException("Erro: não haverá palestras neste evento.");
+        }
+
+        if (listaDeInscritos.contains(participante)){
+            throw new ParticipanteInvalidoException("Não pode inscrever participantes repetidos!");
+        }
+
+        boolean podeParticipar = validarNivelDeAcessoDoParticipante(participante.getNivelDeAcesso());
+
+        if (!podeParticipar){
+            throw new ParticipanteInvalidoException("Erro: o participante não pode participar pois não possui nível de acesso esperado para o evento. "+participante.getNivelDeAcesso()+" < "+ tipo);
         }
 
         if (listaDeInscritos.size() >= capacidadeMaxima){
@@ -89,8 +101,8 @@ public class Evento {
             return;
         }
 
-        if (!listaDeInscritos.add(participante))
-            System.out.println("Não pode inscrever participantes repetidos!");
+        participante.adicionarEventoAoHistorico(this);
+        this.listaDeInscritos.add(participante);
     }
 
     public void cancelarInscricaoDoParticipanteNoEvento(Participante participante){
@@ -100,6 +112,7 @@ public class Evento {
             throw new IllegalArgumentException("Erro: particpante não está inscrito.");
         }
 
+        participante.removerEventoDoHistorico(this);
         this.listaDeInscritos.remove(participante);
         promoverParaListaDeEspera(participante);
     }
@@ -134,6 +147,19 @@ public class Evento {
         }
 
         this.listaDeEspera.add(participante);
+    }
+
+    public boolean validarNivelDeAcessoDoParticipante(NiveisDeAcesso nivelDeAcessoDoParticipante){
+
+        if (nivelDeAcessoDoParticipante == NiveisDeAcesso.PARTICIPANTE  && tipo == TipoEvento.EVENTO_PAGO){ //exceção
+            return true;
+        }
+
+        if (nivelDeAcessoDoParticipante.getPeso() < tipo.getPeso()){
+            return false;
+        }
+
+        return true;
     }
 
     public String getNomeEvento() {return nomeEvento.getValue();}
