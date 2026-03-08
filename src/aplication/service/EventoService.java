@@ -45,7 +45,7 @@ public class EventoService {
 
         Evento event = this.eventsRepository.buscarPorID(IDEvento);
 
-        event.inscreverParticipante(participante);
+        event.inscreverParticipanteNoEvento(participante);
 
         eventsRepository.save(event);
         this.notifier.notificar(event);
@@ -55,7 +55,7 @@ public class EventoService {
 
         Evento event = this.eventsRepository.buscarPorID(IDEvento);
 
-        event.cancelarInscricao(participante);
+        event.cancelarInscricaoDoParticipanteNoEvento(participante);
 
         this.eventsRepository.save(event);
         this.notifier.notificar(event);

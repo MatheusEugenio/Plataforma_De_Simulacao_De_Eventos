@@ -76,7 +76,7 @@ public class Evento {
         this.status = StatusEvento.CANCELADO;
     }
 
-    public synchronized void inscreverParticipante(Participante participante){
+    public synchronized void inscreverParticipanteNoEvento(Participante participante){
         Objects.requireNonNull(participante, "Erro: o participante é nulo");
 
         if (this.listaDePalestras.isEmpty()) {
@@ -93,7 +93,7 @@ public class Evento {
             System.out.println("Não pode inscrever participantes repetidos!");
     }
 
-    public void cancelarInscricao(Participante participante){
+    public void cancelarInscricaoDoParticipanteNoEvento(Participante participante){
         Objects.requireNonNull(participante, "Erro: o participante é nulo.");
 
         if (!this.listaDeInscritos.contains(participante)){
